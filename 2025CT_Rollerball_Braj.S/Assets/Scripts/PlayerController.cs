@@ -51,13 +51,23 @@ public class PlayerController : MonoBehaviour
     }
 
  // FixedUpdate is called once per fixed frame-rate frame.
- private void FixedUpdate() 
+void FixedUpdate ()
     {
- // Create a 3D movement vector using the X and Y inputs.
-        Vector3 movement = new Vector3 (movementX, 0.0f, movementY);
+        float moveHorizontal = Input.GetAxis("Horizontal");
+        float moveVertical = Input.GetAxis ("Vertical");
 
- // Apply force to the Rigidbody to move the player.
-        rb.AddForce(movement * speed); 
+        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+
+        GetComponent<Rigidbody>().AddForce (movement * speed * Time.deltaTime);
+
+        {
+            if (Input.GetKeyDown ("space") && GetComponent<Rigidbody>().transform.position.y <= 0.6250001f) {
+                Vector3 jump = new Vector3 (0.0f, 200.0f, 0.0f);
+
+                GetComponent<Rigidbody>().AddForce (jump);
+            }
+        }
+
     }
 
  
